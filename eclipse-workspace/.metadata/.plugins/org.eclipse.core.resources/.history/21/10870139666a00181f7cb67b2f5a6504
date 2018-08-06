@@ -1,0 +1,52 @@
+public class TasksAssignmentClass implements AssignmentClass {
+
+    public static List<Task> reassignRecords2NewUsers(List<Task> newTasks){
+    	if( newTasks != null ){
+	        Set<Id> accountIdList = new Set<Id>();
+	        Map<Id, Account> accIdMap = new Map<Id, Account>(); 
+	        Map<String, User> userNumberMap = new Map<String, User>(); 
+	        Map<String, Account> accNumberMap = new Map<String, Account>();
+
+	     	
+	        for(Task currTask : newTasks) {
+	        	if(currTask.WhatId != null){
+	            	accountIdList.add(currTask.WhatId);
+	        	}
+	        	System.debug(currTask.Subject);
+	        }       	
+
+	       
+   		    List<Account> accounts = [SELECT id, Sales_Associate_Number__c From Account WHERE Id IN :accountIdList];
+	       	for(Account currAccount : accounts) {
+	       		if( currAccount.Sales_Associate_Number__c != null){
+		       		accNumberMap.put( currAccount.Sales_Associate_Number__c, currAccount);
+		       		accIdMap.put(currAccount.Id, currAccount);
+	       		}
+	       	}
+	       	
+	       	
+	       	List<User> users = [SELECT id, Sales_Associate_Number__c From User WHERE Sales_Associate_Number__c IN :accNumberMap.keySet()];
+	   	    for(User currUser : users) {
+   	    		userNumberMap.put(currUser.Sales_Associate_Number__c, currUser);  	
+	       	}
+	       	
+	       	for(Task currTask : newTasks){
+ 	      		String accountId = currTask.WhatId;
+ 	      		if( accountId != null){      				       	
+		       		Account accountWithCurrentId = accIdMap.get(accountId);
+		       		if(accountWithCurrentId != null){
+		       			String salesAssociateNumberAccount = accountWithCurrentId.Sales_Associate_Number__c;
+		       			if( salesAssociateNumberAccount != null){ 
+   							User userWithSalesAssociateNumberAccount = userNumberMap.get(salesAssociateNumberAccount);
+			       			if( userWithSalesAssociateNumberAccount != null){
+			   					currTask.OwnerId = userWithSalesAssociateNumberAccount.Id;
+			       			}
+		       			}
+		       		}
+		 		}
+	       	}	       	
+			update newTasks;
+	    } 	    
+	 	return newTasks; 
+	}
+}

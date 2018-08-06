@@ -1,0 +1,10 @@
+public class TasksAssignmentClass {
+    public static Task reassignRecords2NewUsers(Task newTasks){
+            Account acc = [Select id, Sales_Associate_Number__c From Account where id = :newTasks.WhatId];
+            User user = [Select id From User where Sales_Associate_Number__c = :acc.Sales_Associate_Number__c];
+            newTasks.OwnerId = user.Id;
+     Update newTasks;
+     System.Debug(user.Id);        
+     return newTasks;
+    }
+}

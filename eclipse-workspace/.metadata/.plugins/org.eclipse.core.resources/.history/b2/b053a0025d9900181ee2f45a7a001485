@@ -1,0 +1,65 @@
+<apex:page standardController="Account" >
+    <apex:form >
+        <apex:sectionheader subtitle="{!account.name}"></apex:sectionheader>
+        <apex:pageBlock title="Account Detail" mode="maindetail">
+        	<apex:pageblocksection >
+            	<apex:outputField value="{!account.OwnerId}"/>
+                <apex:outputField value="{!account.Rating}"/>
+                <apex:outputField value="{!account.Name}"/>
+                <apex:outputField value="{!account.Phone}"/>
+                <apex:outputField value="{!account.AccountNumber}"/>
+                <apex:outputField value="{!account.Fax}"/>
+                <apex:outputField value="{!account.Site}"/>
+                <apex:outputField value="{!account.Website}"/>
+                <apex:outputField value="{!account.Type}"/>
+                <apex:outputField value="{!account.TickerSymbol}"/>
+                <apex:outputField value="{!account.Industry}"/>
+                <apex:outputField value="{!account.Ownership}"/>
+                <apex:outputField value="{!account.AnnualRevenue}"/>
+                <apex:outputField value="{!account.NumberOfEmployees }"/>
+                <apex:outputField value="{!account.Sales_Associate_Number__c}"/>
+                <apex:outputField value="{!account.ParentId}"/>                   
+                <apex:outputText label="Billing Address"  value="{!account.BillingStreet + ' ' + account.BillingCity + ' ' + account.BillingState + ' ' + account.BillingPostalCode + ' ' + account.BillingCountry}" />
+                <apex:outputField value="{!account.Sic}"/>
+                <apex:outputField value="{!account.CustomerPriority__c}"/>
+                <apex:outputText label="Shipping Address" value="{!account.ShippingStreet + ' ' + account.ShippingCity + ' ' + account.ShippingState + ' ' + account.ShippingPostalCode + ' ' + account.ShippingCountry}"/>
+                <apex:outputField value="{!account.SLAExpirationDate__c}"/>
+                <apex:outputField value="{!account.SLA__c}"/>
+                <apex:outputField value="{!account.NumberofLocations__c}"/>
+                <apex:outputField value="{!account.SLASerialNumber__c}"/>
+                <apex:outputField value="{!account.Active__c}"/>
+                <apex:outputField value="{!account.UpsellOpportunity__c}"/>
+                <apex:outputField value="{!account.CreatedById }"/>
+                <apex:outputField value="{!account.LastModifiedById }"/>
+                <apex:outputField value="{!account.Description}"/>
+            </apex:pageblocksection>
+            <apex:pageBlock title="Contacts">
+            	<apex:pageBlockTable value="{!account.Contacts}" var="contact">
+                    <apex:column value="{!contact.Name}" headerValue="Contact Name"/>
+                    <apex:column value="{!contact.Title}" headerValue="Title"/>
+                    <apex:column value="{!contact.Email}" headerValue="Email"/>
+                    <apex:column value="{!contact.Phone}" headerValue="Phone"/>
+                </apex:pageBlockTable>    
+            </apex:pageBlock> 
+            <apex:pageBlock title="Opportunities">
+            	<apex:pageBlockTable value="{!account.Opportunities}" var="Opportunity">
+                    <apex:column value="{!Opportunity.Name}" headerValue="Opportunity Name"/>
+                    <apex:column value="{!Opportunity.StageName}" headerValue="Stage"/>
+                    <apex:column value="{!Opportunity.Amount}" headerValue="Amount"/>
+                    <apex:column value="{!Opportunity.CloseDate}" headerValue="Close Date"/>
+                </apex:pageBlockTable>    
+            </apex:pageBlock>
+            <apex:pageBlock title="Cases">
+            	<apex:pageBlockTable value="{!account.Cases}" var="Case">
+                    <apex:column value="{!Case.CaseNumber}" headerValue="Case"/>
+                    <apex:column value="{!Case.ContactId}" headerValue="Contact Name"/>
+                    <apex:column value="{!Case.Subject}" headerValue="Subject"/>
+                    <apex:column value="{!Case.Priority}" headerValue="Priority"/>
+                    <apex:column value="{!Case.CreatedDate}" headerValue="Date Opened"/>
+                    <apex:column value="{!Case.Status}" headerValue="Status"/>
+                    <apex:column value="{!Case.OwnerId}" headerValue="Owner"/>
+                </apex:pageBlockTable>    
+            </apex:pageBlock>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

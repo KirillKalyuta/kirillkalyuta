@@ -1,0 +1,93 @@
+<apex:page standardController="Contact" recordSetVar="contacts" extensions="ContactControllerExtensions">
+    <apex:form >        
+		<apex:pageBlock title="Contacts" id="contacts_list"> 
+            
+            <apex:outputLabel value="Filter : "/>
+      		<apex:selectList value="{!controller.filterId}" size="1">
+                <apex:selectOptions value="{!controller.listViewOptions}"/>
+                <apex:actionSupport event="onchange" reRender="contacts_list"/>
+            </apex:selectList>
+
+			<apex:pageBlockTable value="{!contacts}" var="cont" >
+                <apex:column >
+                    <apex:facet name="header">
+                        <apex:commandLink value="Name {!IF((sortDir = 'ASC'), '▲', '▼') }" action="{!Filter}" reRender="contacts_list">
+                            <apex:param value="Name" assignTo="{!sortColumnName}"/>
+                        </apex:commandLink>
+                    </apex:facet>
+                    <apex:outputField value="{!cont.Name}" />
+                </apex:column>
+                <apex:column >
+                    <apex:facet name="header">
+                        <apex:commandLink value="Title {!IF((sortDir = 'ASC'), '▲', '▼') }" action="{!Filter}" reRender="contacts_list">
+                            <apex:param value="Title" assignTo="{!sortColumnName}"/>
+                        </apex:commandLink>
+                    </apex:facet>
+                    <apex:outputField value="{!cont.Title}"/>
+                </apex:column>
+                <apex:column >
+                    <apex:facet name="header">
+                        <apex:commandLink value="Account Name  {!IF((sortDir = 'ASC'), '▲', '▼') }" action="{!Filter}" reRender="contacts_list">
+                            <apex:param value="Account.Name" assignTo="{!sortColumnName}"/>
+                        </apex:commandLink>
+                    </apex:facet>
+                    <apex:outputField value="{!cont.Account.Name}"/>
+                </apex:column>
+                <apex:column >
+                    <apex:facet name="header">
+                        <apex:commandLink value="Phone  {!IF((sortDir = 'ASC'), '▲', '▼') }" action="{!Filter}" reRender="contacts_list">
+                            <apex:param value="Phone" assignTo="{!sortColumnName}"/>
+                        </apex:commandLink>
+                    </apex:facet>
+                    <apex:outputField value="{!cont.Phone}"/>
+                </apex:column>
+                <apex:column >
+                    <apex:facet name="header">
+                        <apex:commandLink value="Email  {!IF((sortDir = 'ASC'), '▲', '▼') }" action="{!Filter}" reRender="contacts_list">
+                            <apex:param value="Email" assignTo="{!sortColumnName}"/>
+                        </apex:commandLink>
+                    </apex:facet>
+                    <apex:outputField value="{!cont.Email}"/>
+                </apex:column>
+                <apex:column >
+                    <apex:facet name="header">
+                        <apex:commandLink value="Mobile Phone  {!IF((sortDir = 'ASC'), '▲', '▼') }" action="{!Filter}" reRender="contacts_list">
+                            <apex:param value="MobilePhone" assignTo="{!sortColumnName}"/>
+                        </apex:commandLink>
+                    </apex:facet>
+                    <apex:outputField value="{!cont.MobilePhone}"/>
+                </apex:column>
+                <apex:column >
+                    <apex:facet name="header">
+                        <apex:commandLink value="Contact Owner  {!IF((sortDir = 'ASC'), '▲', '▼') }" action="{!Filter}" reRender="contacts_list">
+                            <apex:param value="Owner.Name" assignTo="{!sortColumnName}"/>
+                        </apex:commandLink>
+                    </apex:facet>
+                    <apex:outputField value="{!cont.Owner.Name}"/>
+                </apex:column>
+            </apex:pageBlockTable>
+            <table style="width: 100%"><tr>
+    			<td>
+        			Page: <apex:outputText value=" {!controller.PageNumber} of {! CEILING(controller.ResultSize /controller.PageSize)}"/>
+    			</td>            
+    			<td align="center">
+                    <apex:commandLink action="{!controller.First }" value="<<< First"/>&nbsp;&nbsp;
+        			<apex:commandLink action="{!controller.Previous }" value="< Previous"	rendered="{!controller.HasPrevious }"/>
+					<apex:outputText style="color: #ccc;" value="< Previous" rendered="{!NOT(controller.HasPrevious) }"/>&nbsp;&nbsp;
+					<apex:commandLink action="{!controller.Next }" value="Next >" rendered="{!controller.HasNext }"/>
+					<apex:outputText style="color: #ccc;" value="Next >" rendered="{!NOT(controller.HasNext) }"/>&nbsp;&nbsp;
+                    <apex:commandLink action="{!controller.Last }" value="Last >>>"/>
+   				</td>    
+    			<td align="right">
+        			Records per page:
+					<apex:selectList value="{!controller.PageSize}" size="1">
+    					<apex:selectOption itemValue="20" itemLabel="20"/>
+    					<apex:selectOption itemValue="50" itemLabel="50"/>
+                        <apex:selectOption itemValue="100" itemLabel="100"/>
+    					<apex:actionSupport event="onchange" reRender="contacts_list"/>
+					</apex:selectList>
+    				</td>
+			</tr></table>
+		</apex:pageBlock>            
+	</apex:form>    
+</apex:page>

@@ -1,0 +1,9 @@
+<apex:page Controller="ActivitiesController" >
+    <apex:form >        
+		<apex:pageBlock title="All Contacts" id="contacts_list">
+            <apex:dataTable value="{!taskList}" var="activ">
+                <apex:column value="{!activ.Status}" />
+            </apex:dataTable>
+        </apex:pageBlock>            
+	</apex:form>    
+</apex:page>

@@ -1,0 +1,32 @@
+<apex:page Controller="LeadCreateController" tabstyle="Lead">
+	<apex:form >
+		<apex:sectionheader title="Edit" subtitle="Form To Create Leads"/>
+ 		<apex:pageBlock mode="edit" title="Leads Form">
+            <apex:pageMessages />
+        	<apex:pageBlockButtons >
+          		<apex:commandButton value="Save" action="{!save}"/>
+                <apex:commandButton value="Cancel" action="{!cancel}" immediate="true"/>                
+       	 	</apex:pageBlockButtons>
+            Enter Count of Leads: &nbsp;
+            <apex:inputText value="{!countOfRows}"/>
+            <apex:commandButton value="Enter" action="{!addCoutLeads}"/>
+            <apex:dataTable value="{!leadlist}" var="lead" align="center" cellpadding="5">
+                <apex:column headerValue="First Name" width="300">
+                	<apex:inputField value="{!lead.FirstName}"/>
+                </apex:column>
+                <apex:column headerValue="Last Name" width="300">
+                	<apex:inputField value="{!lead.LastName}"/>
+                </apex:column> 
+                <apex:column headerValue="Company" width="300">
+                	<apex:inputField value="{!lead.Company}"/>
+                </apex:column>
+                <apex:column headerValue="Lead Source" width="300">
+                	<apex:inputField value="{!lead.LeadSource}"/>
+                </apex:column> 
+                <apex:column headerValue="Status">
+					<apex:inputField value="{!lead.Status}"/>
+				</apex:column>                        		                  
+			</apex:dataTable>             
+		</apex:pageBlock>
+	</apex:form>
+</apex:page>

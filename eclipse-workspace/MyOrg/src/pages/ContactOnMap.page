@@ -1,0 +1,109 @@
+<apex:page standardController="Contact" recordSetVar="contacts">
+    <apex:slds />
+    <head>
+        <style type="text/css">
+            tr.active td {
+                background-color: #8fc3f7;
+            }
+            tr:hover{
+                cursor: pointer;
+            }
+        </style>
+    </head>
+    <body>
+    <div class="slds-scope">
+        <div  id="error" class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error" role="alert">
+            <span class="slds-assistive-text">error</span>
+            <span class="slds-icon_container slds-icon-utility-error slds-m-right_x-small"
+                  title="Description of icon when needed">
+            </span>
+            <h2>No address is found. Please choose another contact.
+            </h2>
+            <button class="slds-button slds-button_icon slds-notify__close slds-button_icon-inverse" title="Close">
+                <span class="slds-assistive-text">Close</span>
+            </button>
+        </div>
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-2">
+                <apex:pageBlock title="Contacts">
+                    <apex:form >
+                        <apex:pageBlockTable value="{!contacts}" var="contact">
+                            <apex:column headerValue="Name">
+                                <outputField data-long="{!contact.Location__Longitude__s}" data-lat="{!contact.Location__Latitude__s}"
+                                             onmouseover="handle(this)">
+                                        {!contact.Name}
+                                </outputField>
+                            </apex:column>
+                            <apex:column headerValue="Location__Longitude__s">
+                            	<outputField >{!contact.Location__Longitude__s}</outputField>
+                            </apex:column>
+                            <apex:column headerValue="Location__Latitude__s">
+                           		<outputField>{!contact.Location__Latitude__s}</outputField>
+                            </apex:column>
+                        </apex:pageBlockTable>
+                        <table style="width: 100%">
+                            <tr>
+                                <td>
+                                    Page:
+                                    <apex:outputText value=" {!PageNumber} of {! CEILING(ResultSize / PageSize) }"/>
+                                </td>
+                                <td align="left">
+                                    <apex:commandLink action="{! Previous }" value="« Previous"
+                                                      rendered="{! HasPrevious }"/>
+                                    <apex:outputText style="color: #ccc;" value="« Previous "
+                                                     rendered="{! NOT(HasPrevious) }"/>
+                                    <apex:commandLink action="{! Next }" value=" Next »"
+                                                      rendered="{! HasNext }"/>
+                                    <apex:outputText style="color: #ccc;" value="Next »"
+                                                     rendered="{! NOT(HasNext) }"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </apex:form>
+                </apex:pageBlock>
+            </div>
+            <div  class="slds-col slds-size_1-of-2">
+                <div id="map" style="width:100%;height:100%;"/>
+            </div>
+        </div>
+    </div>
+    <script>
+        var marker;
+        var myLatLng = {lat: -25.363, lng: 131.044};
+        var currNameContact;
+        document.getElementById("error").style.visibility = "hidden";
+
+        function initMap() {
+            var mapOptions = {
+                center: myLatLng,
+                zoom: 10
+            };
+
+            var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+            marker = new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+                title: currNameContact
+            });
+            marker.setMap(map);
+        }
+
+		function handle(event) {
+            currNameContact = event.innerText;
+            var LocationLatitude = event.getAttribute('data-lat');
+            var LocationLongitude = event.getAttribute('data-long');
+            if (LocationLatitude && LocationLongitude) {
+                myLatLng = {lat: Number(LocationLatitude), lng: Number(LocationLongitude)};
+                initMap();
+                document.getElementById("error").style.visibility = "hidden";
+            }
+            else {
+                document.getElementById("error").style.visibility = "visible";
+                $('#error').style.visibility = "visible";
+            }
+        }
+   	</script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCPfcmT-J2rxgpRJTjtFWG4srFKPGx8kOI&callback=initMap"></script>
+    </body>
+</apex:page>

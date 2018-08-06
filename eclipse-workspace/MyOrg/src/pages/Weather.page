@@ -1,0 +1,10 @@
+<apex:page controller="WeatherInfoController">
+    <apex:pageBlock title="Weather"> 
+		<apex:pageBlockTable value="{!weaths}" var="item">
+            <apex:column headerValue="City" value="{!item.town}"/>
+			<apex:column headerValue="Date" value="{!item.date1}"/> 
+			<apex:column headerValue="Max Temperature" value="{!item.tempMax}"/>  
+			<apex:column headerValue="Min Temperature" value="{!item.tempMin}"/>             
+		</apex:pageBlockTable> 
+	</apex:pageBlock> 
+</apex:page>

@@ -1,0 +1,45 @@
+public class TasksAssignmentClass {
+	public static List<Task> reassign(List<Task> newTasks){
+     //Получил список Id контактов которые создали таски
+        Set<Id> accountIdList = new Set<Id>();
+        for(Task task : newTasks) {
+            accountIdList.add(task.WhatId);
+        }
+        System.Debug(accountIdList.size());
+        //Список контактов
+        List<Account> accounts = [SELECT id, Sales_Associate_Number__c From Account WHERE Id IN :accountIdList];
+            System.Debug(accounts.size());
+        Set<String> contactNumberList = new Set<String>();
+            for( Account con : accounts){
+                contactNumberList.add(con.Sales_Associate_Number__c);
+            }
+            System.Debug(contactNumberList.size());
+        List<User> users = [SELECT id, Sales_Associate_Number__c From User WHERE Sales_Associate_Number__c IN :contactNumberList];
+        System.Debug(users.size());
+        for(Task task : newTasks) {
+            for(Account acc : accounts) {
+                if( task.WhatId == acc.Id ) {
+                    for( User usr : users){
+                        if( acc.Sales_Associate_Number__c == usr.Sales_Associate_Number__c ){
+                            task.OwnerId = usr.Id;
+                            System.Debug(usr.Sales_Associate_Number__c + ' ' + usr.Id);
+                            System.Debug(task.Id);
+                        }
+                    }
+                }
+         }
+        }
+     return newTasks; 
+    }
+    	
+    /*public static Task reassignRecords2NewUsers(Task newTasks){
+    	
+            Account acc = [Select id, Sales_Associate_Number__c From Account where id = :newTasks.WhatId];
+            User user = [Select id From User where Sales_Associate_Number__c = :acc.Sales_Associate_Number__c];
+            newTasks.OwnerId = user.Id;
+     Update newTasks;
+     System.Debug(user.Id);        
+     return newTasks;
+     
+    }*/
+}
